@@ -2,7 +2,7 @@
 - name: "[NGINX] -  Required and recommended packages are installed."
   package: "name={{ item }} state=present"
   with_items:
-    - nginx
+    - {{ websrv_pkg }}
     - smbclient
     - "php{{ php_ver }}-fpm"
     - "php{{ php_ver }}-gd"
