@@ -13,7 +13,7 @@ sudo: required
 # Install ansible
 
 before_install:
-  - sudo apt-get install python-setuptools
+  - sudo apt-get install python-setuptools python-apt
   - sudo easy_install pip
   # Install ansible
   - sudo pip install -I "ansible==$ansible_version"

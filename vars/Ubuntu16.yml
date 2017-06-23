@@ -1,11 +1,11 @@
 ---
-phpVersion: "7.0"
-apache2:
-  packages:
-    - "apache2"
-    - "libapache2-mod-php7"
+nextcloud_php_dir: "/etc/php/7.0"
+nextcloud_php_bin: "php-fpm7.0"
+nextcloud_php_srv: "php7.0-fpm"
+nextcloud_php_socket: "/run/php/php7.0-fpm.sock"
+nextcloud_web:
+  pkg_dep:
     - "smbclient"
-    - "php7.0-fpm"
     - "php7.0-gd"
     - "php7.0-ldap"
     - "php7.0-imap"
@@ -13,19 +13,37 @@ apache2:
     - "php7.0-curl"
     - "php7.0-intl"
     - "php7.0-mcrypt"
-  user: "www-data"
-  group: "www-data"
-nginx:
-  packages:
-    - "nginx"
-    - "smbclient"
-    - "php7.0-fpm"
-    - "php7.0-gd"
-    - "php7.0-ldap"
-    - "php7.0-imap"
-    - "php7.0-json"
-    - "php7.0-curl"
-    - "php7.0-intl"
-    - "php7.0-mcrypt"
-  user: "www-data"
-  group: "www-data"
+    - "php-imap"
+    - "php-imagick"
+    - "php7.0-xml"
+    - "php7.0-zip"
+    - "php7.0-mbstring"
+    - "php-apcu"
+  apache2:
+    pkg_inst:
+      - "apache2"
+      - "libapache2-mod-php7.0"
+  nginx:
+    pkg_inst:
+      - "nginx"
+      - "php7.0-fpm"
+nextcloud_db:
+  mysql:
+    pkg: ["mysql-server", "python-mysqldb"]
+    php: php7.0-mysql
+  mariadb:
+    pkg: ["mariadb-server", "python-mysqldb"]
+    php: php7.0-mysql
+  postgresql:
+    pkg: ["postgresql", "python-psycopg2"]
+    php: php7.0-pgsql
+nextcloud_websrv_user: "www-data"
+nextcloud_websrv_group: "www-data"
+nextcloud_spec: #  specials packages required for the distribution.
+  zip: unzip
+  tar.bz2: bzip2
+  required:
+    - ca-certificates   # needed for downloading from download.nextcloud.com as the site use letsencrypt certificates: letsencrypt may not be trusted on older OS
+# nextcloud_backports:
+#   repo: ""
+#   pkg: ""

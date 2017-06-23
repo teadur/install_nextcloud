@@ -17,12 +17,12 @@
 
 - name: start php-fpm
   service:
-    name: php{{ php_ver }}-fpm
+    name: "{{ nextcloud_php_srv }}"
     state: started
 
 - name: reload php-fpm
   service:
-    name: php{{ php_ver }}-fpm
+    name: "{{ nextcloud_php_srv }}"
     state: reloaded
 
 - name: start apache

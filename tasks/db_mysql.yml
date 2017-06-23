@@ -1,14 +1,9 @@
 ---
 - name: "[mySQL] - Service is installed."
-  package: "name={{ nextcloud_db_backend }}-server state=present"
+  package: "name={{ item }} state=present"
+  with_flattened:
+    - "{{ nextcloud_db[nextcloud_db_backend].pkg}}"
   register: nc_mysql_db_install
-
-- name: "[mySQL] - PHP module is installed."
-  package: "name=php{{ php_ver }}-mysql state=present"
-
-- name: "[mySQL] - the python module mysqldb is present"
-  # needed by mysql_* ansible modules
-  package: name=python-mysqldb state=present
 
 - block:
   - name: "[mySQL] - generate {{ nextcloud_db_backend }} root Password:"
