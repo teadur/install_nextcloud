@@ -1,0 +1,23 @@
+---
+phpVersion: "5"
+apache2:
+  pkgName:
+  - "apache2"
+  - "libapache2-mod-php5"
+  user: "www-data"
+  group: "www-data"
+nginx:
+  packages:
+    - "nginx"
+    - "smbclient"
+    - "php5-fpm"
+    - "php5-gd"
+    - "php5-ldap"
+    - "php5-imap"
+    - "php5-json"
+    - "php5-curl"
+    - "php5-intl"
+    - "php5-mcrypt"
+  user: "www-data"
+  group: "www-data"
+samba: "smbclient"

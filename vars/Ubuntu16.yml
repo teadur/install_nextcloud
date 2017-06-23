@@ -1,0 +1,31 @@
+---
+phpVersion: "7.0"
+apache2:
+  packages:
+    - "apache2"
+    - "libapache2-mod-php7"
+    - "smbclient"
+    - "php7.0-fpm"
+    - "php7.0-gd"
+    - "php7.0-ldap"
+    - "php7.0-imap"
+    - "php7.0-json"
+    - "php7.0-curl"
+    - "php7.0-intl"
+    - "php7.0-mcrypt"
+  user: "www-data"
+  group: "www-data"
+nginx:
+  packages:
+    - "nginx"
+    - "smbclient"
+    - "php7.0-fpm"
+    - "php7.0-gd"
+    - "php7.0-ldap"
+    - "php7.0-imap"
+    - "php7.0-json"
+    - "php7.0-curl"
+    - "php7.0-intl"
+    - "php7.0-mcrypt"
+  user: "www-data"
+  group: "www-data"
