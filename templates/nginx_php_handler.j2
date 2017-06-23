@@ -1,4 +1,4 @@
 upstream php-handler {
     #server 127.0.0.1:9000;
-    server unix:{{ php_socket }};
+    server unix:{{ nextcloud_php_socket }};
 }

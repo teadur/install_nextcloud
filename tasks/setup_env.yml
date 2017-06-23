@@ -13,7 +13,7 @@
   include_vars: "{{ role_path }}/vars/{{ ansible_distribution }}{{ ansible_distribution_major_version }}.yml"
 
 - name: "[ENV] - requirements are installed"
-  apt:
+  package:
     name: "{{ item }}"
     state: latest
   with_flattened:
@@ -30,11 +30,3 @@
   rescue:
     - name: "[ENV] - rolling back to su."
       set_fact: ansible_become_method="su"
-
-
-# fix for ubuntu 14.04 with permission issue for unprivileged user :
-- name: "[NC] - Adding ACL on trusty."
-  apt:
-    name: acl
-    state: installed
-  when: ansible_distribution_release == "trusty"

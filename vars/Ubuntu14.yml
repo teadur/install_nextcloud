@@ -1,11 +1,13 @@
 ---
-phpVersion: "5"
-apache2:
-  packages:
-    - "apache2"
-    - "libapache2-mod-php5"
+nextcloud_php_dir: "/etc/php5"
+nextcloud_php_bin: "php5-fpm"
+nextcloud_php_srv: "php5-fpm"
+nextcloud_php_socket: "/var/run/php5-fpm.sock"
+nextcloud_web:
+  pkg_dep:
+    - "php5-imap"
+    - "php5-imagick"
     - "smbclient"
-    - "php5-fpm"
     - "php5-gd"
     - "php5-ldap"
     - "php5-imap"
@@ -13,19 +15,34 @@ apache2:
     - "php5-curl"
     - "php5-intl"
     - "php5-mcrypt"
-  user: "www-data"
-  group: "www-data"
-nginx:
-  packages:
-    - "nginx"
-    - "smbclient"
-    - "php5-fpm"
-    - "php5-gd"
-    - "php5-ldap"
-    - "php5-imap"
-    - "php5-json"
-    - "php5-curl"
-    - "php5-intl"
-    - "php5-mcrypt"
-  user: "www-data"
-  group: "www-data"
+  apache2:
+    pkg_inst:
+      - "apache2"
+      - "libapache2-mod-php5"
+  nginx:
+    pkg_inst:
+      - "nginx"
+      - "php5-fpm"
+nextcloud_db:
+  mysql:
+    pkg: ["mysql-server", "python-mysqldb"]
+    php: php5-mysql
+  mariadb:
+    pkg: ["mariadb-server", "python-mysqldb"]
+    php: php5-mysql
+  pgsql:
+    pkg: ["postgresql", "python-psycopg2"]
+    php: php5-pgsql
+nextcloud_websrv_user: "www-data"
+nextcloud_websrv_group: "www-data"
+nextcloud_spec: #  specials packages required for the distribution.
+  zip: unzip
+  tar.bz2: bzip2
+  required:
+    - acl
+    - ca-certificates   # needed for downloading from download.nextcloud.com as the site use letsencrypt certificates: letsencrypt may not be trusted on older OS
+nextcloud_backports:
+  name: "trusty-backports"
+  repo: "http://fr.archive.ubuntu.com/ubuntu/"
+  env: "main restricted universe multiverse"
+  pkg: "php5-apcu"   # load APCu from backports as the default version for trusty is obsolete.

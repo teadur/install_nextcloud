@@ -34,7 +34,7 @@ nextcloud_db:
   mariadb:
     pkg: ["mariadb-server", "python-mysqldb"]
     php: php7.0-mysql
-  postgresql:
+  pgsql:
     pkg: ["postgresql", "python-psycopg2"]
     php: php7.0-pgsql
 nextcloud_websrv_user: "www-data"
@@ -45,5 +45,7 @@ nextcloud_spec: #  specials packages required for the distribution.
   required:
     - ca-certificates   # needed for downloading from download.nextcloud.com as the site use letsencrypt certificates: letsencrypt may not be trusted on older OS
 # nextcloud_backports:
-#   repo: ""
-#   pkg: ""
+#   name: "trusty-backports"
+#   repo: "http://fr.archive.ubuntu.com/ubuntu/"
+#   env: "main restricted universe multiverse"
+#   pkg: "php5-apcu"   # load APCu from backports as the default version for trusty is obsolete.

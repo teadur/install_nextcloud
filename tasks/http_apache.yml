@@ -7,17 +7,18 @@
     - "{{ nextcloud_db[nextcloud_db_backend].php}}"
   notify: start apache
 
-# - block:
-#   # load APCu from backports as the default version for trusty is obsolete.
-#   - name: "[APACHE] -  Configure trusty backports."
-#     apt_repository:
-#       repo: "deb http://fr.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse"
-#       state: present
-#       update_cache: yes
-#     ignore_errors: yes # fix for travis ci
-#   - name: "[APACHE] -  Install APCu from backports."
-#     apt: "name={{ php_pkg_apcu }} state=latest default_release=trusty-backports"
-#   when: ansible_distribution_release == "trusty"
+- block:
+  - name: "[APACHE] -  Configure backports."
+    apt_repository:
+      repo: "deb {{nextcloud_backports.repo}} {{nextcloud_backports.name}} {{nextcloud_backports.env}}"
+      state: present
+      update_cache: yes
+    ignore_errors: yes # fix for travis ci
+  - name: "[APACHE] -  Install from backports."
+    apt: "name={{ item }} state=latest default_release={{nextcloud_backports.name}}"
+    with_flattened:
+      - "{{nextcloud_backports.pkg}}"
+  when: ansible_os_family == "Debian" and nextcloud_backports is defined
 
 - name: "[APACHE] -  enable APC for php CLI"
   lineinfile:
