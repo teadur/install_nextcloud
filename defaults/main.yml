@@ -15,13 +15,15 @@ nextcloud_get_latest: true # mandatory # specify if the latest archive should be
 # nextcloud_version_special: "" #  For prereleases: "RCn|beta" | for daily "YYYY-MM-DD"
 nextcloud_repository: "https://download.nextcloud.com/server" # Domain URL where to download Nextcloud.
 nextcloud_archive_format: "zip" # zip | tar.bz2
-# nextcloud_full_url: "https://h2g2.com/downloads/42/my_nexcloud.zip" # specify directly a full URL to the archive if you don't like rules.
+# nextcloud_full_url: "https://h2g2.com/downloads/42/my_nextcloud.zip" # specify directly a full URL to the archive if you don't like rules.
 
 
 # [CONFIG]
 nextcloud_trusted_domain:
   - "{{ ansible_fqdn }}"
   - "{{ ansible_default_ipv4.address }}"
+
+nextcloud_ipv6: false
 
 nextcloud_trusted_proxies: []
 
@@ -36,10 +38,13 @@ nextcloud_admin_name: "admin"
 # nextcloud_admin_pwd: "secret"
 
 nextcloud_install_redis_server: true
+nextcloud_redis_host: '/var/run/redis/redis.sock'
+nextcloud_redis_port: 0
+
 nextcloud_redis_settings:
+  - { name: 'redis host', value: '"{{ nextcloud_redis_host }}"' }
+  - { name: 'redis port', value: "{{ nextcloud_redis_port }}" }
   - { name: 'memcache.locking', value: '\OC\Memcache\Redis' }
-  - { name: 'redis host', value: 'localhost' }
-  - { name: 'redis port', value: '6379'}
 
 nextcloud_background_cron: True
 
@@ -61,12 +66,14 @@ nextcloud_db_admin: "ncadmin"
 # nextcloud_db_pwd: "secret"
 
 # [TLS] parameters used in the apache2 & nginx templates
+##  max file's size allowed to be uploaded on the server
+nextcloud_max_upload_size: 512m # in Byte or human readable size notation (g|m|k)
 nextcloud_install_tls: true
 nextcloud_tls_enforce: true
-nextcloud_force_strong_apache_ssl: true
+nextcloud_mozilla_modern_ssl_profile: false # when false, intermediate profile is used
 nextcloud_tls_cert_method: "self-signed" # "self-signed" | "signed" | "installed"
 nextcloud_tls_dhparam: "/etc/ssl/dhparam.pem"
-nextcloud_hsts: false
+nextcloud_hsts: false # recommended >= 15552000
 # nextcloud_tls_cert: /path/to/cert
 # nextcloud_tls_cert_key: /path/to/cert/key
 # nextcloud_tls_cert_chain: /path/to/cert/chain
@@ -80,3 +87,5 @@ nextcloud_apps: {}
 nextcloud_websrv_user: "www-data"
 nextcloud_websrv_group: "www-data"
 #nextcloud_mysql_root_pwd: "secret"
+
+php_custom: false
