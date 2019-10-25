@@ -23,6 +23,10 @@
   - name: "[ENV] - Load environment for OS using php 7.2"
     include_vars: "{{ role_path }}/defaults/php7.2_env.yml"
     when: ansible_distribution_release in [ "bionic" ]
+  
+  - name: "[ENV] - Load environment for OS using php 7.3"
+    include_vars: "{{ role_path }}/defaults/php7.3_env.yml"
+    when: ansible_distribution_release in [ "buster" ]
 
   when: not php_custom
 
